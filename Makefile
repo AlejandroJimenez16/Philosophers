@@ -6,7 +6,7 @@
 #    By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 17:27:48 by alejandj          #+#    #+#              #
-#    Updated: 2025/09/02 13:19:53 by alejandj         ###   ########.fr        #
+#    Updated: 2025/09/04 13:29:32 by alejandj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ OBJDIR = obj/
 # Archivos
 SRC =	src/philo.c			\
 		src/philo_utils.c	\
+		src/actions.c		\
 
 OBJECTS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 

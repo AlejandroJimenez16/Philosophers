@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/02 13:02:39 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/04 21:45:50 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (res * sign);
+}
+
+long long	get_time_ms(t_sim *sim)
+{
+	long long timestamp;
+	struct timeval now;
+
+	gettimeofday(&now, NULL);
+	timestamp = ((now.tv_sec - sim->start_time.tv_sec) * 1000LL) +
+				((now.tv_usec - sim->start_time.tv_usec) / 1000);
+	return (timestamp);
 }
 
 void	show_error_args(void)
