@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/04 21:51:36 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/15 21:40:26 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo
 	int		num_meals;
 }			t_philo;
 
+// Args
 typedef struct s_args
 {
 	t_philo	*philo;
