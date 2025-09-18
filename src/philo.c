@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/17 18:28:22 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:43:40 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	init_data(t_sim *sim, int argc, char *argv[])
 {
-	sim->num_of_philo = ft_atoi(argv[1]);
-	sim->time_die = ft_atoi(argv[2]);
-	sim->time_eat = ft_atoi(argv[3]);
-	sim->time_sleep = ft_atoi(argv[4]);
+	sim->num_of_philo = ft_atol(argv[1]);
+	sim->time_die = ft_atol(argv[2]);
+	sim->time_eat = ft_atol(argv[3]);
+	sim->time_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		sim->num_times_eat = ft_atoi(argv[5]);
+		sim->num_times_eat = ft_atol(argv[5]);
 	else
 		sim->num_times_eat = -1;
 	gettimeofday(&sim->start_time, NULL);
@@ -101,8 +101,7 @@ void	manage_threads(t_philo *philos, t_sim *sim)
 	{
 		pthread_join(threads[i], NULL);
 		i++;
-	}
-	
+	}	
 }
 
 int	main(int argc, char *argv[])
@@ -142,14 +141,7 @@ int	main(int argc, char *argv[])
 		//-------------------------------------------------------------------------------------------------
 		
 		manage_threads(philos, &sim);
-		
-		/*
-		// Creo el hilo
-		pthread_t	thread_philo;
-		pthread_create(&thread_philo, NULL, philo_routine, &args);
-		pthread_join(thread_philo, NULL);
 		return (0);
-		*/
 	}
 	else
 	{

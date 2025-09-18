@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/15 21:40:26 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:43:21 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <limits.h>
 
 // Simulation Data
 typedef struct s_sim
@@ -55,7 +56,7 @@ typedef struct s_args
 }			t_args;
 
 // Utils
-int			ft_atoi(const char *str);
+long		ft_atol(const char *str);
 long long	get_time_ms(t_sim *sim);
 void		show_error_args(void);
 

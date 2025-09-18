@@ -6,21 +6,22 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/04 21:45:50 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:39:01 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
-	int	res;
-	int	sign;
-	int	i;
+	int		i;
+	long	result;
+	int		sign;
+	int		digit;
 
-	res = 0;
-	sign = 1;
 	i = 0;
+	result = 0;
+	sign = 1;
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-')
@@ -29,10 +30,15 @@ int	ft_atoi(const char *str)
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + (str[i] - '0');
+		digit = str[i] - '0';
+		if (sign == 1 && (result > (LONG_MAX - digit) / 10))
+			return (LONG_MAX);
+		if (sign == -1 && (-result < (LONG_MIN + digit) / 10))
+			return (LONG_MIN);
+		result = result * 10 + digit;
 		i++;
 	}
-	return (res * sign);
+	return (result * sign);
 }
 
 long long	get_time_ms(t_sim *sim)
