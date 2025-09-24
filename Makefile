@@ -6,14 +6,14 @@
 #    By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 17:27:48 by alejandj          #+#    #+#              #
-#    Updated: 2025/09/17 17:51:48 by alejandj         ###   ########.fr        #
+#    Updated: 2025/09/24 19:50:26 by alejandj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 # Directorios
 OBJDIR = obj/

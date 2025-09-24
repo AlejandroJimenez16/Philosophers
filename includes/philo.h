@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/18 10:43:21 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/24 20:33:17 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_philo
 	t_fork	*left_fork;
 	t_fork	*right_fork;
 	int		num_meals;
+	long long last_meal;
 }			t_philo;
 
 // Args
