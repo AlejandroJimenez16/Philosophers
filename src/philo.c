@@ -6,11 +6,31 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/18 10:43:40 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:47:48 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+int	check_args(int argc, char *argv[])
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (!ft_isdigit(argv[i][j]))
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
 
 void	init_data(t_sim *sim, int argc, char *argv[])
 {
@@ -23,6 +43,8 @@ void	init_data(t_sim *sim, int argc, char *argv[])
 	else
 		sim->num_times_eat = -1;
 	gettimeofday(&sim->start_time, NULL);
+	pthread_mutex_init(&sim->print_mutex, NULL);
+	sim->someone_dead = 0;
 }
 
 void	fill_forks(t_fork *forks, int num_philos)
@@ -61,49 +83,6 @@ void	fill_philos(t_philo *philos, t_fork *forks, int num_philos)
 	}
 }
 
-void	*philo_routine(void *arg)
-{
-	t_args *args = (t_args *)arg;
-	t_philo *philo = args->philo;
-	t_sim *sim = args->sim;
-
-	while (1)
-	{
-		eat_action(philo, sim);
-		sleep_action(philo, sim);
-		think_action(philo, sim);
-	}
-	return (NULL);
-}
-
-void	manage_threads(t_philo *philos, t_sim *sim)
-{
-	pthread_t	*threads;
-	t_args		*args;
-	int 		i;
-
-	threads = malloc(sim->num_of_philo * sizeof(pthread_t));
-	if (!threads)
-		return ;
-	args = malloc(sim->num_of_philo * sizeof(t_args));
-	if (!args)
-		return ;
-	i = 0;
-	while (i < sim->num_of_philo)
-	{
-		args[i].philo = &philos[i];
-		args[i].sim = sim;
-		pthread_create(&threads[i], NULL, philo_routine, &args[i]);
-		i++;
-	}
-	i = 0;
-	while (i < sim->num_of_philo)
-	{
-		pthread_join(threads[i], NULL);
-		i++;
-	}	
-}
-
 int	main(int argc, char *argv[])
 {
 	t_sim		sim;
@@ -113,39 +92,20 @@ int	main(int argc, char *argv[])
 
 	if (argc == 5 || argc == 6)
 	{
-		// Guardo info simulacion
+		if (check_args(argc, argv) == 0)
+			exit (1);
 		init_data(&sim, argc, argv);
-
-		// Creo los arrays 
 		philos = malloc(sim.num_of_philo * sizeof(t_philo));
 		if (!philos)
 			return (1);
 		forks = malloc(sim.num_of_philo * sizeof(t_fork));
 		if (!forks)
 			return (1);
-
-		// Lleno los arrays
 		fill_forks(forks, sim.num_of_philo);
 		fill_philos(philos, forks, sim.num_of_philo);
-
-		//------------------------------------------------------------------------------------------------
-		
-		// Ver si la info es correcta
-		for (int i = 0; i < sim.num_of_philo; i++)
-		{
-			printf("Philo: %d\n", philos[i].id);
-			printf("Left fork: %d\n", philos[i].left_fork->fork_id);
-			printf("right fork: %d\n", philos[i].right_fork->fork_id);
-			printf("\n");
-		}
-		//-------------------------------------------------------------------------------------------------
-		
 		manage_threads(philos, &sim);
-		return (0);
 	}
 	else
-	{
 		show_error_args();
-		return (1);
-	}
+	return (0);
 }

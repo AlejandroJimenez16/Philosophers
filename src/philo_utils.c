@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/18 10:39:01 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:38:03 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
 long long	get_time_ms(t_sim *sim)
 {
 	long long timestamp;
@@ -50,6 +58,13 @@ long long	get_time_ms(t_sim *sim)
 	timestamp = ((now.tv_sec - sim->start_time.tv_sec) * 1000LL) +
 				((now.tv_usec - sim->start_time.tv_usec) / 1000);
 	return (timestamp);
+}
+
+void	print_status(t_sim *sim, int id, const char *msg)
+{
+	pthread_mutex_lock(&sim->print_mutex);
+	printf("%lld [%d] %s\n", get_time_ms(sim), id, msg);
+	pthread_mutex_unlock(&sim->print_mutex);
 }
 
 void	show_error_args(void)

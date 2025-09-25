@@ -24,3 +24,16 @@
 )
 
 - pthread_mutex_unlock -->  Se utiliza para desbloquear un mutex que previamente fue bloqueado con pthread_mutex_lock. Esto permite que otros hilos puedan adquirir el mutex y entrar en la sección crítica.
+
+
+//------------------------------------------------------------------------------------------------
+		
+// Ver si la info es correcta
+for (int i = 0; i < sim.num_of_philo; i++)
+{
+	printf("Philo: %d\n", philos[i].id);
+	printf("Left fork: %d\n", philos[i].left_fork->fork_id);
+	printf("right fork: %d\n", philos[i].right_fork->fork_id);
+	printf("\n");
+}
+//-------------------------------------------------------------------------------------------------

@@ -6,22 +6,23 @@
 #    By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 17:27:48 by alejandj          #+#    #+#              #
-#    Updated: 2025/09/24 19:50:26 by alejandj         ###   ########.fr        #
+#    Updated: 2025/09/25 16:00:32 by alejandj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 
 # Directorios
 OBJDIR = obj/
 
 # Archivos
-SRC =	src/philo.c			\
-		src/philo_utils.c	\
-		src/actions.c		\
+SRC =	src/philo.c				\
+		src/philo_utils.c		\
+		src/actions.c			\
+		src/threads.c			\
 
 OBJECTS = $(SRC:src/%.c=$(OBJDIR)/%.o)
 
