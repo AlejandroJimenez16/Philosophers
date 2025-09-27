@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/25 16:47:48 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/27 21:12:27 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,24 +86,21 @@ void	fill_philos(t_philo *philos, t_fork *forks, int num_philos)
 int	main(int argc, char *argv[])
 {
 	t_sim		sim;
-	t_philo		*philos;
-	t_fork		*forks;
-	
 
 	if (argc == 5 || argc == 6)
 	{
 		if (check_args(argc, argv) == 0)
 			exit (1);
 		init_data(&sim, argc, argv);
-		philos = malloc(sim.num_of_philo * sizeof(t_philo));
-		if (!philos)
+		sim.philos = malloc(sim.num_of_philo * sizeof(t_philo));
+		if (!sim.philos)
 			return (1);
-		forks = malloc(sim.num_of_philo * sizeof(t_fork));
-		if (!forks)
+		sim.forks = malloc(sim.num_of_philo * sizeof(t_fork));
+		if (!sim.forks)
 			return (1);
-		fill_forks(forks, sim.num_of_philo);
-		fill_philos(philos, forks, sim.num_of_philo);
-		manage_threads(philos, &sim);
+		fill_forks(sim.forks, sim.num_of_philo);
+		fill_philos(sim.philos, sim.forks, sim.num_of_philo);
+		manage_threads(&sim);
 	}
 	else
 		show_error_args();

@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/25 13:38:03 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 00:45:14 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,18 @@ void	show_error_args(void)
 	printf("\033[0;33m  - Time to eat (ms)\033[0m\n");
 	printf("\033[0;33m  - Time to sleep (ms)\033[0m\n");
 	printf("\033[0;33m  - Number times eat (OPTIONAL)\033[0m\n");
+}
+
+void smart_usleep(t_sim *sim, int time_ms)
+{
+    int slept;
+
+	slept = 0;
+    while (slept < time_ms)
+    {
+        if (sim->someone_dead)
+            break;
+        usleep(1000);
+        slept++;
+    }
 }
