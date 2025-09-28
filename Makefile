@@ -6,7 +6,7 @@
 #    By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 17:27:48 by alejandj          #+#    #+#              #
-#    Updated: 2025/09/25 16:00:32 by alejandj         ###   ########.fr        #
+#    Updated: 2025/09/28 21:09:34 by alejandj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ OBJDIR = obj/
 
 # Archivos
 SRC =	src/philo.c				\
-		src/philo_utils.c		\
+		src/philo_utils_1.c		\
+		src/philo_utils_2.c		\
 		src/actions.c			\
 		src/threads.c			\
 

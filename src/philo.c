@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 20:13:52 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 23:22:05 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	fill_philos(t_philo *philos, t_fork *forks, int num_philos)
 			philos[i].right_fork = &forks[i];
 		}
 		philos[i].num_meals = 0;
+		philos[i].last_meal = 0;
 		i++;
 	}
 }
@@ -102,6 +103,7 @@ int	main(int argc, char *argv[])
 		fill_forks(sim.forks, sim.num_of_philo);
 		fill_philos(sim.philos, sim.forks, sim.num_of_philo);
 		manage_threads(&sim);
+		clean_up(&sim);
 	}
 	else
 		show_error_args();

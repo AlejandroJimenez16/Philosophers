@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:58:21 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 20:35:51 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 21:44:12 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,10 @@ void	*threads_dead(void *arg)
 	return (NULL);
 }
 
-void	create_threads(t_sim *sim)
+void	create_threads(t_sim *sim, t_args *args)
 {
-	t_args		*args;
 	int	i;
 
-	args = malloc(sim->num_of_philo * sizeof(t_args));
-	if (!args)
-		return ;
 	i = 0;
 	while (i < sim->num_of_philo)
 	{
@@ -93,17 +89,22 @@ void	create_threads(t_sim *sim)
 
 void	manage_threads(t_sim *sim)
 {
+	t_args		*args;
 	int			i;
 
 	i = 0;
 	sim->threads = malloc(sim->num_of_philo * sizeof(pthread_t));
 	if (!sim->threads)
-		return ;
-	create_threads(sim);
+		return (free(sim->philos), free_forks(sim));
+	args = malloc(sim->num_of_philo * sizeof(t_args));
+	if (!args)
+		return (free(sim->philos), free_forks(sim), free(sim->threads));
+	create_threads(sim, args);
 	while (i < sim->num_of_philo)
 	{
 		pthread_join(sim->threads[i], NULL);
 		i++;
 	}
 	pthread_join(sim->dead_thread, NULL);
+	free(args);
 }
