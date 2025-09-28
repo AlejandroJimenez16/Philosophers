@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:28:53 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 01:11:05 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:31:44 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,22 @@ void eat_action(t_philo *philo, t_sim *sim)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
-		if (!sim->someone_dead)
+		if (!sim->someone_dead && !sim->all_saciated)
 			print_status(sim, philo->id, "has taken a fork");
 		pthread_mutex_lock(&philo->right_fork->fork);
-		if (!sim->someone_dead)
+		if (!sim->someone_dead && !sim->all_saciated)
 			print_status(sim, philo->id, "has taken a fork");
 	}
 	else
 	{
     	pthread_mutex_lock(&philo->right_fork->fork);
-		if (!sim->someone_dead)
+		if (!sim->someone_dead && !sim->all_saciated)
     		print_status(sim, philo->id, "has taken a fork");
     	pthread_mutex_lock(&philo->left_fork->fork);
-		if (!sim->someone_dead)
+		if (!sim->someone_dead && !sim->all_saciated)
     		print_status(sim, philo->id, "has taken a fork");
 	}
-	if (!sim->someone_dead)
+	if (!sim->someone_dead && !sim->all_saciated)
 		print_status(sim, philo->id, "is eating");
 	philo->last_meal = get_time_ms(sim);
 	philo->num_meals++;
@@ -51,13 +51,13 @@ void eat_action(t_philo *philo, t_sim *sim)
 
 void    sleep_action(t_philo *philo, t_sim *sim)
 {
-	if (!sim->someone_dead)
+	if (!sim->someone_dead && !sim->all_saciated)
 		print_status(sim, philo->id, "is sleeping");
 	smart_usleep(sim, sim->time_sleep);
 }
 
 void    think_action(t_philo *philo, t_sim *sim)
 {
-	if (!sim->someone_dead)
+	if (!sim->someone_dead && !sim->all_saciated)
 		print_status(sim, philo->id, "is thinking");
 }

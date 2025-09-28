@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/27 21:12:27 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:13:52 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_data(t_sim *sim, int argc, char *argv[])
 	gettimeofday(&sim->start_time, NULL);
 	pthread_mutex_init(&sim->print_mutex, NULL);
 	sim->someone_dead = 0;
+	sim->all_saciated = 0;
 }
 
 void	fill_forks(t_fork *forks, int num_philos)

@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/27 22:52:00 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:13:38 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_sim
 	pthread_t	*threads;
 	pthread_t dead_thread;
 	int	someone_dead;
+	int	all_saciated;
 	pthread_mutex_t print_mutex;
 }					t_sim;
 

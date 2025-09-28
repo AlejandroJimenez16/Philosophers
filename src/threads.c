@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:58:21 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 00:42:23 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/28 20:35:51 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*philo_routine(void *arg)
 	t_philo *philo = args->philo;
 	t_sim *sim = args->sim;
 
-	while (!sim->someone_dead)
+	while (!sim->someone_dead && !sim->all_saciated)
 	{
 		eat_action(philo, sim);
 		sleep_action(philo, sim);
@@ -30,6 +30,7 @@ void	*philo_routine(void *arg)
 void	*threads_dead(void *arg)
 {
 	t_sim	*sim = (t_sim *)arg;
+	int		all_eat;
 	int		i;
 
 	while (1)
@@ -47,6 +48,26 @@ void	*threads_dead(void *arg)
 			}
 			i++;
 		}
+		if (sim->num_times_eat != -1)
+		{
+			all_eat = 1;
+			i = 0;
+			while (i < sim->num_of_philo)
+			{
+				if (sim->philos[i].num_meals < sim->num_times_eat)
+				{
+					all_eat = 0;
+					break ;
+				}
+				i++;
+			}
+			if (all_eat)
+			{
+				sim->all_saciated = 1;
+				return (NULL);
+			}
+		}
+		
 	}
 	return (NULL);
 }
