@@ -6,13 +6,13 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:58:21 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 16:52:52 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:18:54 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	*philo_routine(void *arg)
+static void	*philo_routine(void *arg)
 {
 	t_args	*args;
 	t_philo	*philo;
@@ -30,7 +30,7 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
-int	check_num_meals(t_sim *sim)
+static int	check_num_meals(t_sim *sim)
 {
 	int	all_eat;
 	int	i;
@@ -57,7 +57,7 @@ int	check_num_meals(t_sim *sim)
 	return (0);
 }
 
-void	*threads_dead(void *arg)
+static void	*threads_dead(void *arg)
 {
 	t_sim	*sim;
 	int		i;
@@ -85,7 +85,7 @@ void	*threads_dead(void *arg)
 	return (NULL);
 }
 
-void	create_threads(t_sim *sim, t_args *args)
+static void	create_threads(t_sim *sim, t_args *args)
 {
 	int	i;
 

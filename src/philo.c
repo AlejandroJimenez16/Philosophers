@@ -6,13 +6,13 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 15:50:00 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:41:54 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	check_args(int argc, char *argv[])
+static int	check_args(int argc, char *argv[])
 {
 	int	i;
 	int	j;
@@ -32,7 +32,7 @@ int	check_args(int argc, char *argv[])
 	return (1);
 }
 
-void	init_data(t_sim *sim, int argc, char *argv[])
+static void	init_data(t_sim *sim, int argc, char *argv[])
 {
 	sim->num_of_philo = ft_atol(argv[1]);
 	sim->time_die = ft_atol(argv[2]);
@@ -48,41 +48,28 @@ void	init_data(t_sim *sim, int argc, char *argv[])
 	sim->all_saciated = 0;
 }
 
-void	fill_forks(t_fork *forks, int num_philos)
+static int	validate_init_args(int argc, char *argv[], t_sim *sim)
 {
-	int	i;
-
-	i = 0;
-	while (i < num_philos)
+	if (check_args(argc, argv) == 0)
 	{
-		pthread_mutex_init(&forks[i].fork, NULL);
-		forks[i].fork_id = i + 1;
-		i++;
+		printf("\033[31mError: all arguments must be "
+			"positive integers greater than 0.\033[0m\n");
+		return (1);
 	}
-}
-
-void	fill_philos(t_philo *philos, t_fork *forks, int num_philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < num_philos)
+	init_data(sim, argc, argv);
+	if (sim->num_of_philo == 0)
 	{
-		philos[i].id = i + 1;
-		if (i == 0)
-		{
-			philos[i].left_fork = &forks[num_philos - 1];
-			philos[i].right_fork = &forks[i];
-		}
-		else
-		{
-			philos[i].left_fork = &forks[i - 1];
-			philos[i].right_fork = &forks[i];
-		}
-		philos[i].num_meals = 0;
-		philos[i].last_meal = 0;
-		i++;
+		printf("\033[31mError: number of philosophers "
+			"must be at least 1.\033[0m\n");
+		return (1);
 	}
+	if (sim->time_die == 0 || sim->time_eat == 0 || sim->time_sleep == 0)
+	{
+		printf("\033[31mError: all arguments must be "
+			"positive integers greater than 0.\033[0m\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -91,15 +78,14 @@ int	main(int argc, char *argv[])
 
 	if (argc == 5 || argc == 6)
 	{
-		if (check_args(argc, argv) == 0)
-			exit (1);
-		init_data(&sim, argc, argv);
+		if (validate_init_args(argc, argv, &sim))
+			return (1);
 		sim.philos = malloc(sim.num_of_philo * sizeof(t_philo));
 		if (!sim.philos)
 			return (1);
 		sim.forks = malloc(sim.num_of_philo * sizeof(t_fork));
 		if (!sim.forks)
-			return (1);
+			return (free(sim.philos), 1);
 		fill_forks(sim.forks, sim.num_of_philo);
 		fill_philos(sim.philos, sim.forks, sim.num_of_philo);
 		manage_threads(&sim);

@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 16:24:29 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:27:33 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ long long	get_time_ms(t_sim *sim);
 void		print_status(t_sim *sim, int id, const char *msg);
 void		show_error_args(void);
 void		smart_usleep(t_sim *sim, long time_ms);
+void		fill_forks(t_fork *forks, int num_philos);
+void		fill_philos(t_philo *philos, t_fork *forks, int num_philos);
 void		free_forks(t_sim *sim);
 void		clean_up(t_sim *sim);
 
 // Threads
 void		manage_threads(t_sim *sim);
-void		*philo_routine(void *arg);
 
 // Actions
 void		eat_action(t_philo *philo, t_sim *sim);
