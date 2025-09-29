@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 21:08:40 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:37:12 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	ft_isdigit(int c)
 
 long long	get_time_ms(t_sim *sim)
 {
-	long long timestamp;
-	struct timeval now;
+	long long		timestamp;
+	struct timeval	now;
 
 	gettimeofday(&now, NULL);
-	timestamp = ((now.tv_sec - sim->start_time.tv_sec) * 1000LL) +
-				((now.tv_usec - sim->start_time.tv_usec) / 1000);
+	timestamp = ((now.tv_sec - sim->start_time.tv_sec) * 1000LL)
+		+ ((now.tv_usec - sim->start_time.tv_usec) / 1000);
 	return (timestamp);
 }
 

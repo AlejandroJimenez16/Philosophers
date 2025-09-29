@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:08:20 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 15:51:16 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:42:46 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	smart_usleep(t_sim *sim, long time_ms)
 	while (get_time_ms(sim) - start <= time_ms)
 	{
 		if (sim->someone_dead)
-			break;
+			break ;
 		usleep(500);
 	}
 }
@@ -38,9 +38,9 @@ void	free_forks(t_sim *sim)
 	free(sim->forks);
 }
 
-void    clean_up(t_sim *sim)
+void	clean_up(t_sim *sim)
 {
-    free_forks(sim);
+	free_forks(sim);
 	free(sim->philos);
 	free(sim->threads);
 	pthread_mutex_destroy(&sim->print_mutex);
