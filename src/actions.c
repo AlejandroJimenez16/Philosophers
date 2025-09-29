@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:28:53 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 20:31:44 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:15:50 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void eat_action(t_philo *philo, t_sim *sim)
 	{
     	pthread_mutex_lock(&philo->left_fork->fork);
     	print_status(sim, philo->id, "has taken a fork");
-    	smart_usleep(sim, sim->time_die);
-    	pthread_mutex_unlock(&philo->left_fork->fork);
-    	return;
+    	smart_usleep(sim, sim->time_eat);
+		pthread_mutex_unlock(&philo->left_fork->fork);
+    	return ;
 	}
 	if (philo->id % 2 == 0)
 	{
@@ -33,6 +33,7 @@ void eat_action(t_philo *philo, t_sim *sim)
 	}
 	else
 	{
+		usleep(500);
     	pthread_mutex_lock(&philo->right_fork->fork);
 		if (!sim->someone_dead && !sim->all_saciated)
     		print_status(sim, philo->id, "has taken a fork");

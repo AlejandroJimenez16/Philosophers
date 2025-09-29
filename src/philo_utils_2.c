@@ -6,24 +6,23 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:08:20 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/28 21:33:16 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:51:16 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	smart_usleep(t_sim *sim, int time_ms)
+void	smart_usleep(t_sim *sim, long time_ms)
 {
-    int slept;
+	long	start;
 
-	slept = 0;
-    while (slept < time_ms)
-    {
-        if (sim->someone_dead)
-            break;
-        usleep(1000);
-        slept++;
-    }
+	start = get_time_ms(sim);
+	while (get_time_ms(sim) - start <= time_ms)
+	{
+		if (sim->someone_dead)
+			break;
+		usleep(500);
+	}
 }
 
 void	free_forks(t_sim *sim)
