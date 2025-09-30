@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:58:21 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 17:18:54 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:46:53 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,25 @@ static void	*threads_dead(void *arg)
 	sim = (t_sim *)arg;
 	while (1)
 	{
-		i = 0;
-		while (i < sim->num_of_philo)
+		i = -1;
+		while (++i < sim->num_of_philo)
 		{
 			if (get_time_ms(sim) >= sim->philos[i].last_meal + sim->time_die)
 			{
 				pthread_mutex_lock(&sim->print_mutex);
-				printf("\033[31m%lld [%d] %s\033[0m\n", get_time_ms(sim),
-					sim->philos[i].id, "died");
-				pthread_mutex_unlock(&sim->print_mutex);
-				sim->someone_dead = 1;
-				return (NULL);
+				if (!sim->someone_dead)
+				{
+					sim->someone_dead = 1;
+					printf("\033[31m%lld [%d] %s\033[0m\n", get_time_ms(sim),
+						sim->philos[i].id, "died");
+				}
+				return (pthread_mutex_unlock(&sim->print_mutex), NULL);
 			}
-			i++;
 		}
 		if (check_num_meals(sim))
 			return (NULL);
+		usleep(1000);
 	}
-	return (NULL);
 }
 
 static void	create_threads(t_sim *sim, t_args *args)

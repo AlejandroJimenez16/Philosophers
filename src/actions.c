@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:28:53 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 16:35:10 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:38:51 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	special_case(t_philo *philo, t_sim *sim)
 {
 	pthread_mutex_lock(&philo->left_fork->fork);
-	print_status(sim, philo->id, "has taken a fork");
+	print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 	smart_usleep(sim, sim->time_die);
 	pthread_mutex_unlock(&philo->left_fork->fork);
 }
@@ -25,22 +25,19 @@ static void	take_forks(t_philo *philo, t_sim *sim)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
-		if (!sim->someone_dead && !sim->all_saciated)
-			print_status(sim, philo->id, "has taken a fork");
+		print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 		pthread_mutex_lock(&philo->right_fork->fork);
-		if (!sim->someone_dead && !sim->all_saciated)
-			print_status(sim, philo->id, "has taken a fork");
+		print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 	}
 	else
 	{
-		usleep(500);
+		usleep(philo->id * 1000);
 		pthread_mutex_lock(&philo->right_fork->fork);
-		if (!sim->someone_dead && !sim->all_saciated)
-			print_status(sim, philo->id, "has taken a fork");
+		print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 		pthread_mutex_lock(&philo->left_fork->fork);
-		if (!sim->someone_dead && !sim->all_saciated)
-			print_status(sim, philo->id, "has taken a fork");
+		print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 	}
+	philo->last_meal = get_time_ms(sim);
 }
 
 void	eat_action(t_philo *philo, t_sim *sim)
@@ -48,9 +45,7 @@ void	eat_action(t_philo *philo, t_sim *sim)
 	if (sim->num_of_philo == 1)
 		return (special_case(philo, sim));
 	take_forks(philo, sim);
-	if (!sim->someone_dead && !sim->all_saciated)
-		print_status(sim, philo->id, "is eating");
-	philo->last_meal = get_time_ms(sim);
+	print_status(sim, philo->id, "\033[33mis eating\033[0m");
 	philo->num_meals++;
 	smart_usleep(sim, sim->time_eat);
 	pthread_mutex_unlock(&philo->left_fork->fork);
@@ -59,13 +54,11 @@ void	eat_action(t_philo *philo, t_sim *sim)
 
 void	sleep_action(t_philo *philo, t_sim *sim)
 {
-	if (!sim->someone_dead && !sim->all_saciated)
-		print_status(sim, philo->id, "is sleeping");
+	print_status(sim, philo->id, "\033[36mis sleeping\033[0m");
 	smart_usleep(sim, sim->time_sleep);
 }
 
 void	think_action(t_philo *philo, t_sim *sim)
 {
-	if (!sim->someone_dead && !sim->all_saciated)
-		print_status(sim, philo->id, "is thinking");
+	print_status(sim, philo->id, "\033[35mis thinking\033[0m");
 }
