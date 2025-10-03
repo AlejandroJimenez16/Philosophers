@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:28:53 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/30 16:38:51 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:52:37 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static void	take_forks(t_philo *philo, t_sim *sim)
 		pthread_mutex_lock(&philo->left_fork->fork);
 		print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
 	}
+	pthread_mutex_lock(&sim->death_mutex);
 	philo->last_meal = get_time_ms(sim);
+	pthread_mutex_unlock(&sim->death_mutex);
 }
 
 void	eat_action(t_philo *philo, t_sim *sim)

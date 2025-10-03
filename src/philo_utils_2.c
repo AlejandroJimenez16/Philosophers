@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:08:20 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/29 17:27:02 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:27:51 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 void	smart_usleep(t_sim *sim, long time_ms)
 {
 	long	start;
+	int		dead;
 
 	start = get_time_ms(sim);
 	while (get_time_ms(sim) - start <= time_ms)
 	{
-		if (sim->someone_dead)
+		pthread_mutex_lock(&sim->death_mutex);
+		dead = sim->someone_dead;
+		pthread_mutex_unlock(&sim->death_mutex);
+		if (dead)
 			break ;
 		usleep(500);
 	}

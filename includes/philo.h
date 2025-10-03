@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/09/30 15:50:02 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:40:05 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_sim
 	int				someone_dead;
 	int				all_saciated;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	death_mutex;
 }					t_sim;
 
 // Args
@@ -77,6 +78,10 @@ void		clean_up(t_sim *sim);
 
 // Threads
 void		manage_threads(t_sim *sim);
+
+// Routines
+void		*philo_routine(void *arg);
+void		*threads_dead(void *arg);
 
 // Actions
 void		eat_action(t_philo *philo, t_sim *sim);

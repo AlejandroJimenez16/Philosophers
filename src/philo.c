@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/01 11:56:15 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:22:38 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	init_data(t_sim *sim, int argc, char *argv[])
 		sim->num_times_eat = -1;
 	gettimeofday(&sim->start_time, NULL);
 	pthread_mutex_init(&sim->print_mutex, NULL);
+	pthread_mutex_init(&sim->death_mutex, NULL);
 	sim->someone_dead = 0;
 	sim->all_saciated = 0;
 }
