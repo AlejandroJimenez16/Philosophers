@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:30:40 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/03 14:58:21 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/05 13:26:48 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ static int	check_num_meals(t_sim *sim)
 		i = 0;
 		while (i < sim->num_of_philo)
 		{
+			pthread_mutex_lock(&sim->death_mutex);
 			if (sim->philos[i].num_meals < sim->num_times_eat)
 			{
 				all_eat = 0;
+				pthread_mutex_unlock(&sim->death_mutex);
 				break ;
 			}
+			pthread_mutex_unlock(&sim->death_mutex);
 			i++;
 		}
 		if (all_eat)
