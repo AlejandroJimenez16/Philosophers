@@ -6,11 +6,23 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:30:40 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/05 13:26:48 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/06 00:57:59 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+static int	is_sim_over(t_sim *sim)
+{
+	int	dead;
+	int	saciated;
+
+	pthread_mutex_lock(&sim->death_mutex);
+	dead = sim->someone_dead;
+	saciated = sim->all_saciated;
+	pthread_mutex_unlock(&sim->death_mutex);
+	return (dead || saciated);
+}
 
 void	*philo_routine(void *arg)
 {
@@ -21,7 +33,7 @@ void	*philo_routine(void *arg)
 	args = (t_args *)arg;
 	philo = args->philo;
 	sim = args->sim;
-	while (!sim->someone_dead && !sim->all_saciated)
+	while (!is_sim_over(sim))
 	{
 		eat_action(philo, sim);
 		sleep_action(philo, sim);
@@ -41,19 +53,18 @@ static int	check_num_meals(t_sim *sim)
 		i = 0;
 		while (i < sim->num_of_philo)
 		{
-			pthread_mutex_lock(&sim->death_mutex);
 			if (sim->philos[i].num_meals < sim->num_times_eat)
 			{
 				all_eat = 0;
-				pthread_mutex_unlock(&sim->death_mutex);
 				break ;
 			}
-			pthread_mutex_unlock(&sim->death_mutex);
 			i++;
 		}
 		if (all_eat)
 		{
+			pthread_mutex_lock(&sim->death_mutex);
 			sim->all_saciated = 1;
+			pthread_mutex_unlock(&sim->death_mutex);
 			return (1);
 		}
 	}
