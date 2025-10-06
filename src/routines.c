@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 14:30:40 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/06 14:40:24 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:27:05 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ static int	check_num_meals(t_sim *sim)
 		i = -1;
 		while (++i < sim->num_of_philo)
 		{
-			pthread_mutex_lock(&sim->death_mutex);
+			pthread_mutex_lock(&sim->philos[i].meal_mutex);
 			if (sim->philos[i].num_meals < sim->num_times_eat)
 			{
 				all_eat = 0;
-				pthread_mutex_unlock(&sim->death_mutex);
+				pthread_mutex_unlock(&sim->philos[i].meal_mutex);
 				break ;
 			}
-			pthread_mutex_unlock(&sim->death_mutex);
+			pthread_mutex_unlock(&sim->philos[i].meal_mutex);
 		}
 		if (all_eat)
 			return (
@@ -73,9 +73,15 @@ static int	check_num_meals(t_sim *sim)
 
 static void	report_dead(t_sim *sim, int i)
 {
-	if (!sim->someone_dead)
-	{
+	int	dead;
+
+	pthread_mutex_lock(&sim->death_mutex);
+	dead = sim->someone_dead;
+	if (!dead)
 		sim->someone_dead = 1;
+	pthread_mutex_unlock(&sim->death_mutex);
+	if (!dead)
+	{
 		pthread_mutex_lock(&sim->print_mutex);
 		printf("\033[31m%lld [%d] %s\033[0m\n", get_time_ms(sim),
 			sim->philos[i].id, "died");
@@ -85,8 +91,9 @@ static void	report_dead(t_sim *sim, int i)
 
 void	*threads_dead(void *arg)
 {
-	t_sim	*sim;
-	int		i;
+	t_sim		*sim;
+	long long	meal;
+	int			i;
 
 	sim = (t_sim *)arg;
 	while (1)
@@ -94,13 +101,14 @@ void	*threads_dead(void *arg)
 		i = -1;
 		while (++i < sim->num_of_philo)
 		{
-			pthread_mutex_lock(&sim->death_mutex);
-			if (get_time_ms(sim) >= sim->philos[i].last_meal + sim->time_die)
+			pthread_mutex_lock(&sim->philos[i].meal_mutex);
+			meal = sim->philos[i].last_meal;
+			pthread_mutex_unlock(&sim->philos[i].meal_mutex);
+			if (get_time_ms(sim) >= meal + sim->time_die)
 			{
 				report_dead(sim, i);
-				return (pthread_mutex_unlock(&sim->death_mutex), NULL);
+				return (NULL);
 			}
-			pthread_mutex_unlock(&sim->death_mutex);
 		}
 		if (check_num_meals(sim))
 			return (NULL);

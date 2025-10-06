@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 12:57:06 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/03 14:40:05 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:55:08 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,13 @@ typedef struct s_fork
 // Philos
 typedef struct s_philo
 {
-	int			id;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
-	int			num_meals;
-	long long	last_meal;
-}				t_philo;
+	int				id;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
+	int				num_meals;
+	long long		last_meal;
+	pthread_mutex_t	meal_mutex;
+}					t_philo;
 
 // Simulation Data
 typedef struct s_sim
