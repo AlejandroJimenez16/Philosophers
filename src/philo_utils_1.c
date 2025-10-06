@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 11:47:41 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/06 13:24:26 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 00:39:16 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,14 @@ long long	get_time_ms(t_sim *sim)
 
 void	print_status(t_sim *sim, int id, const char *msg)
 {
-	int	dead;
-	int	saciated;
-
 	pthread_mutex_lock(&sim->death_mutex);
-	dead = sim->someone_dead;
-	saciated = sim->all_saciated;
-	pthread_mutex_unlock(&sim->death_mutex);
-	pthread_mutex_lock(&sim->print_mutex);
-	if (!dead && !saciated)
+	if (!sim->someone_dead && !sim->all_saciated)
+	{
+		pthread_mutex_lock(&sim->print_mutex);
 		printf("%lld [%d] %s\n", get_time_ms(sim), id, msg);
-	pthread_mutex_unlock(&sim->print_mutex);
+		pthread_mutex_unlock(&sim->print_mutex);
+	}
+	pthread_mutex_unlock(&sim->death_mutex);
 }
 
 void	show_error_args(void)

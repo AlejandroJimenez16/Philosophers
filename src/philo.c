@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 13:06:15 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/06 17:25:34 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 00:35:10 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,6 @@ static int	validate_init_args(int argc, char *argv[], t_sim *sim)
 	return (0);
 }
 
-static void	init_meal_mutex(t_sim *sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < sim->num_of_philo)
-	{
-		pthread_mutex_init(&sim->philos->meal_mutex, NULL);
-		i++;
-	}
-}
-
 int	main(int argc, char *argv[])
 {
 	t_sim		sim;
@@ -101,9 +89,8 @@ int	main(int argc, char *argv[])
 		sim.forks = malloc(sim.num_of_philo * sizeof(t_fork));
 		if (!sim.forks)
 			return (free(sim.philos), 1);
-		init_meal_mutex(&sim);
-		fill_forks(sim.forks, sim.num_of_philo);
-		fill_philos(sim.philos, sim.forks, sim.num_of_philo);
+		fill_forks(&sim);
+		fill_philos(&sim);
 		manage_threads(&sim);
 		clean_up(&sim);
 	}

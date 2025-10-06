@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:58:21 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/03 14:38:46 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 00:37:48 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	create_threads(t_sim *sim, t_args *args)
 		pthread_create(&sim->threads[i], NULL, philo_routine, &args[i]);
 		i++;
 	}
+	usleep(5000);
 	pthread_create(&sim->dead_thread, NULL, threads_dead, sim);
 }
 

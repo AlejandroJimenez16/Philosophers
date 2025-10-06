@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:08:20 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/03 14:27:51 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 00:55:21 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,43 +25,44 @@ void	smart_usleep(t_sim *sim, long time_ms)
 		pthread_mutex_unlock(&sim->death_mutex);
 		if (dead)
 			break ;
-		usleep(500);
+		usleep(1000);
 	}
 }
 
-void	fill_forks(t_fork *forks, int num_philos)
+void	fill_forks(t_sim *sim)
 {
 	int	i;
 
 	i = 0;
-	while (i < num_philos)
+	while (i < sim->num_of_philo)
 	{
-		pthread_mutex_init(&forks[i].fork, NULL);
-		forks[i].fork_id = i + 1;
+		pthread_mutex_init(&sim->forks[i].fork, NULL);
+		sim->forks[i].fork_id = i + 1;
 		i++;
 	}
 }
 
-void	fill_philos(t_philo *philos, t_fork *forks, int num_philos)
+void	fill_philos(t_sim *sim)
 {
 	int	i;
 
 	i = 0;
-	while (i < num_philos)
+	while (i < sim->num_of_philo)
 	{
-		philos[i].id = i + 1;
+		sim->philos[i].id = i + 1;
 		if (i == 0)
 		{
-			philos[i].left_fork = &forks[num_philos - 1];
-			philos[i].right_fork = &forks[i];
+			sim->philos[i].left_fork = &sim->forks[sim->num_of_philo - 1];
+			sim->philos[i].right_fork = &sim->forks[i];
 		}
 		else
 		{
-			philos[i].left_fork = &forks[i - 1];
-			philos[i].right_fork = &forks[i];
+			sim->philos[i].left_fork = &sim->forks[i - 1];
+			sim->philos[i].right_fork = &sim->forks[i];
 		}
-		philos[i].num_meals = 0;
-		philos[i].last_meal = 0;
+		sim->philos[i].num_meals = 0;
+		sim->philos[i].last_meal = 0;
+		pthread_mutex_init(&sim->philos[i].meal_mutex, NULL);
 		i++;
 	}
 }
@@ -81,8 +82,17 @@ void	free_forks(t_sim *sim)
 
 void	clean_up(t_sim *sim)
 {
+	int	i;
+
+	i = 0;
+	while (i < sim->num_of_philo)
+	{
+		pthread_mutex_destroy(&sim->philos[i].meal_mutex);
+		i++;
+	}
+	pthread_mutex_destroy(&sim->print_mutex);
+	pthread_mutex_destroy(&sim->death_mutex);
 	free_forks(sim);
 	free(sim->philos);
 	free(sim->threads);
-	pthread_mutex_destroy(&sim->print_mutex);
 }
