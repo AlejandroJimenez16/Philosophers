@@ -6,28 +6,11 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 21:08:20 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/07 00:55:21 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:26:14 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-void	smart_usleep(t_sim *sim, long time_ms)
-{
-	long	start;
-	int		dead;
-
-	start = get_time_ms(sim);
-	while (get_time_ms(sim) - start <= time_ms)
-	{
-		pthread_mutex_lock(&sim->death_mutex);
-		dead = sim->someone_dead;
-		pthread_mutex_unlock(&sim->death_mutex);
-		if (dead)
-			break ;
-		usleep(1000);
-	}
-}
 
 void	fill_forks(t_sim *sim)
 {

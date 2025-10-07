@@ -6,7 +6,7 @@
 /*   By: alejandj <alejandj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 13:28:53 by alejandj          #+#    #+#             */
-/*   Updated: 2025/10/07 00:12:09 by alejandj         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:51:05 by alejandj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	special_case(t_philo *philo, t_sim *sim)
 {
 	pthread_mutex_lock(&philo->left_fork->fork);
 	print_status(sim, philo->id, "\033[32mhas taken a fork\033[0m");
-	smart_usleep(sim, sim->time_die);
+	usleep(sim->time_die * 1000);
 	pthread_mutex_unlock(&philo->left_fork->fork);
 }
 
@@ -49,7 +49,7 @@ void	eat_action(t_philo *philo, t_sim *sim)
 	philo->num_meals++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	print_status(sim, philo->id, "\033[33mis eating\033[0m");
-	smart_usleep(sim, sim->time_eat);
+	usleep(sim->time_eat * 1000);
 	pthread_mutex_unlock(&philo->left_fork->fork);
 	pthread_mutex_unlock(&philo->right_fork->fork);
 }
@@ -57,7 +57,7 @@ void	eat_action(t_philo *philo, t_sim *sim)
 void	sleep_action(t_philo *philo, t_sim *sim)
 {
 	print_status(sim, philo->id, "\033[36mis sleeping\033[0m");
-	smart_usleep(sim, sim->time_sleep);
+	usleep(sim->time_sleep * 1000);
 }
 
 void	think_action(t_philo *philo, t_sim *sim)
